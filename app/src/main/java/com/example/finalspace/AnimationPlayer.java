@@ -1,8 +1,14 @@
 package com.example.finalspace;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Paint;
+import android.graphics.Rect;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import static com.example.finalspace.MainThread.canvas;
 
 public class AnimationPlayer {
     private ArrayList<Bitmap[]> animations = new ArrayList<Bitmap[]>();
@@ -29,10 +35,21 @@ public class AnimationPlayer {
             }
         }
     }
-    public Bitmap nextFrame() {
+    public Bitmap update() {
         frameIndex++;
         Bitmap[] animation = animations.get(animationIndex);
-        if(frameIndex == animation.length) { frameIndex = 0; }
-        return animation[frameIndex];
+        if(frameIndex >= animation.length * 1000) { frameIndex = 0; }
+        return animation[(int)(frameIndex/1000)];
+    }
+    public void draw(Rect destination) {
+        canvas.drawBitmap(update(), null, destination, new Paint());
+    }
+    public Bitmap[] convertIdArrayToBitmapArray(int[] IDs) {
+        Bitmap[] bitmaps = new Bitmap[IDs.length];
+        BitmapFactory bf = new BitmapFactory();
+        for(int i = 0; i < IDs.length; i++){
+            bitmaps[i] = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), IDs[i]);
+        }
+        return bitmaps;
     }
 }
