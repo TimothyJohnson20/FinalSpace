@@ -1,8 +1,5 @@
 package com.example.finalspace;
 
-import android.app.ActionBar;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +9,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static String TAG = "Final Space";
@@ -27,7 +19,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Player player;
     private Point playerIdealPoint;
     private Point playerPoint;
-    private ObsticleManager obsticleManager = new ObsticleManager(50);
+    private ObjectManager objectManager = new ObjectManager(30);
     private int lives = 3;
     
     public GamePanel(Context context){
@@ -76,12 +68,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         this.playerPoint = playerPoint;
     }
 
-    public ObsticleManager getObsticleManager() {
-        return obsticleManager;
+    public ObjectManager getObjectManager() {
+        return objectManager;
     }
 
-    public void setObsticleManager(ObsticleManager obsticleManager) {
-        this.obsticleManager = obsticleManager;
+    public void setObjectManager(ObjectManager objectManager) {
+        this.objectManager = objectManager;
     }
 
     public int getLives() {
@@ -136,14 +128,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             int offsetY = (playerIdealPoint.y - playerPoint.y) / 20;
             playerPoint.offset(offsetX, offsetY);
             player.update(playerPoint);
-            if(obsticleManager.checkCollisions(player)) {
+            if(objectManager.checkCollisions(player)) {
                 lives--;
                 if(lives <= 0) {
                     player = null;
                 }
             }
         }
-        obsticleManager.update();
+        objectManager.update();
     }
 
     @Override
@@ -152,13 +144,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // paint for text
         Paint textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(48f);
         textPaint.setTextAlign(Paint.Align.CENTER);
         // paint for text
-        canvas.drawColor(Color.rgb(30, 30, 30));
+        canvas.drawColor(Color.rgb(10, 10, 10));
         if(player != null) {player.draw(canvas);}
-        else {canvas.drawText("You Died", Constants.VIEW_WIDTH/2, Constants.VIEW_HEIGHT/2, textPaint);}
-        obsticleManager.draw(canvas);
+        else {
+            textPaint.setTextSize(132f);
+            canvas.drawText("You Died", Constants.VIEW_WIDTH/2, Constants.VIEW_HEIGHT/2, textPaint);
+            textPaint.setTextSize(84f);
+            canvas.drawText("Tap to restart", Constants.VIEW_WIDTH/2, Constants.VIEW_HEIGHT/2 + 200, textPaint);
+        }
+        objectManager.draw(canvas);
+        textPaint.setTextSize(90f);
         canvas.drawText("Lives: "+lives, Constants.VIEW_WIDTH/2, 100, textPaint);
     }
     public static void triggerRebirth(Context context) {

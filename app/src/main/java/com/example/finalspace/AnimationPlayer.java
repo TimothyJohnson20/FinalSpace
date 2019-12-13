@@ -15,6 +15,7 @@ public class AnimationPlayer {
     private ArrayList<String> animationNames = new ArrayList<String>();
     private int animationIndex = -1;
     private int frameIndex = -1;
+    private int tik = 0;
     public AnimationPlayer() {
 
     }
@@ -36,10 +37,16 @@ public class AnimationPlayer {
         }
     }
     public Bitmap update() {
-        frameIndex++;
+        tik++;
         Bitmap[] animation = animations.get(animationIndex);
-        if(frameIndex >= animation.length * 1000) { frameIndex = 0; }
-        return animation[(int)(frameIndex/1000)];
+        if(tik == 10) {
+            tik = 0;
+            frameIndex++;
+            if(frameIndex == animation.length) {
+                frameIndex = 0;
+            }
+        }
+        return animation[frameIndex];
     }
     public void draw(Rect destination) {
         canvas.drawBitmap(update(), null, destination, new Paint());

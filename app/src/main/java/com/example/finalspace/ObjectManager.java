@@ -4,11 +4,12 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
-public class ObsticleManager implements GameObject{
+public class ObjectManager implements GameObject{
     private ArrayList<Obsticle> obsticles = new ArrayList<Obsticle>();
+    private ArrayList<Heart> hearts = new ArrayList<Heart>();
     private int ticksToSpawn;
     private int tick;
-    public ObsticleManager(int ticksToSpawn) {
+    public ObjectManager(int ticksToSpawn) {
         this.ticksToSpawn = ticksToSpawn;
         this.tick = ticksToSpawn;
     }
@@ -26,7 +27,15 @@ public class ObsticleManager implements GameObject{
     public void update() {
         tick--;
         if(tick <= 0) {
-            obsticles.add(new Obsticle());
+            // astroids
+            int astroidNumb = (int)(Math.random()) + 1;
+            for(int i = 0; i < (astroidNumb); i++) {
+                obsticles.add(new Obsticle());
+            }
+            // hearts
+            if(chance(20)) {
+                hearts.add(new Heart());
+            }
             tick = ticksToSpawn;
         }
         int size = obsticles.size();
@@ -34,7 +43,7 @@ public class ObsticleManager implements GameObject{
             Obsticle obsticle = obsticles.get(i);
             obsticle.update();
             if(obsticle.getPos().y > Constants.VIEW_HEIGHT + obsticle.getScale()) {
-               obsticles.remove(i);
+               //obsticles.remove(i);
             }
         }
         }
@@ -50,5 +59,14 @@ public class ObsticleManager implements GameObject{
             }
         }}
         return false;
+    }
+    public boolean chance(int percent) {
+        int numb = (int)(Math.random() * 100);
+        if(numb <= percent) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

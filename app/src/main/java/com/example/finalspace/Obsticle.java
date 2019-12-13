@@ -1,5 +1,7 @@
 package com.example.finalspace;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -57,14 +59,25 @@ public class Obsticle implements GameObject {
     public Obsticle() {
         speed = (int)(20 * Math.random()) + 10;
         int xPos = (int)(Math.random() * Constants.VIEW_WIDTH);
-        scale = 100 * (int)(Math.random() * 3);
+        scale = 100 * (int)((Math.random() * 2) + 1);
         pos.set(xPos, -scale);
+        BitmapFactory bf = new BitmapFactory();
+        Bitmap sprite1 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid1);
+        Bitmap sprite2 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid2);
+        Bitmap sprite3 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid3);
+        Bitmap sprite4 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid4);
+        Bitmap sprite5 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid5);
+        Bitmap sprite6 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid6);
+        Bitmap sprite7 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid7);
+        animationPlayer.createAnimation(new Bitmap[]{sprite1, sprite2, sprite3, sprite4, sprite5, sprite6, sprite7}, "roll");
+        animationPlayer.setAnimation("roll");
     }
     @Override
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
-        canvas.drawRect(rect, paint);
+        //canvas.drawRect(rect, paint);
+        animationPlayer.draw(rect);
     }
     @Override
     public void update() {
