@@ -14,8 +14,8 @@ public class AnimationPlayer {
     private ArrayList<Bitmap[]> animations = new ArrayList<Bitmap[]>();
     private ArrayList<String> animationNames = new ArrayList<String>();
     private int animationIndex = -1;
-    private int frameIndex = -1;
-    private int tik = 0;
+    private int frameIndex = 0;
+    private long lastFrame = System.currentTimeMillis();
     public AnimationPlayer() {
 
     }
@@ -37,14 +37,13 @@ public class AnimationPlayer {
         }
     }
     public Bitmap update() {
-        tik++;
         Bitmap[] animation = animations.get(animationIndex);
-        if(tik == 10) {
-            tik = 0;
+        if(System.currentTimeMillis() - lastFrame >= 100) {
             frameIndex++;
             if(frameIndex == animation.length) {
                 frameIndex = 0;
             }
+            lastFrame = System.currentTimeMillis();
         }
         return animation[frameIndex];
     }

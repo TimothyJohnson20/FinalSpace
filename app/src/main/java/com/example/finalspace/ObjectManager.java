@@ -42,9 +42,6 @@ public class ObjectManager implements GameObject{
         if(size > 0) { for(int i = 0; i < size; i++) {
             Obsticle obsticle = obsticles.get(i);
             obsticle.update();
-            if(obsticle.getPos().y > Constants.VIEW_HEIGHT + obsticle.getScale()) {
-               //obsticles.remove(i);
-            }
         }
         }
     }
