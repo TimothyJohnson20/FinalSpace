@@ -61,6 +61,7 @@ public class Obsticle implements GameObject {
         int xPos = (int)(Math.random() * Constants.VIEW_WIDTH);
         scale = 100 * (int)((Math.random() * 2) + 1);
         pos.set(xPos, -scale);
+        // animation stuff
         BitmapFactory bf = new BitmapFactory();
         Bitmap sprite1 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid1);
         Bitmap sprite2 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources() ,R.drawable.astroid2);

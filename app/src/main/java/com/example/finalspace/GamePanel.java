@@ -134,6 +134,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     player = null;
                 }
             }
+            if(objectManager.checkHeartCollisions(player)) {
+                lives++;
+            }
         }
         objectManager.update();
     }
