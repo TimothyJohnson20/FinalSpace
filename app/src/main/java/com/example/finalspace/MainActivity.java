@@ -5,11 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity {
-
+    private boolean hasRestarted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +20,13 @@ public class MainActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         Constants.VIEW_WIDTH = displayMetrics.widthPixels;
         Constants.VIEW_HEIGHT = displayMetrics.heightPixels;
-        GamePanel gamePanel = new GamePanel(this);
-        setContentView(gamePanel);
+        setContentView(new GamePanel(this));
     }
+    /*** @Override
+    protected void onRestart() {
+        Log.d("hmmm", "onResume: happening");
+        if(hasRestarted) {GamePanel.triggerRebirth(this);}
+        else {hasRestarted = true;}
+        super.onRestart();
+    }**/
 }

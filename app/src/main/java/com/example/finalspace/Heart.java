@@ -25,7 +25,6 @@ public class Heart implements GameObject {
         animationPlayer.createAnimation(new Bitmap[] {sprite}, "idle");
         animationPlayer.setAnimation("idle");
     }
-
     @Override
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
